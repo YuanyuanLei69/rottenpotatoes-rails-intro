@@ -6,4 +6,4 @@ course](http://www.saas-class.org) and (non-free)
 
 To start working on the Rails Intro homework, please follow [the instructions](instructions/README.md).
 
-The Heroku App: http://stormy-atoll-08014.herokuapp.com
+The Heroku App: http://mysterious-reaches-17353.herokuapp.com

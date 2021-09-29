@@ -1,4 +1,4 @@
 
 https://github.com/YuanyuanLei69/rottenpotatoes-rails-intro
 
-http://stormy-atoll-08014.herokuapp.com
+http://mysterious-reaches-17353.herokuapp.com
