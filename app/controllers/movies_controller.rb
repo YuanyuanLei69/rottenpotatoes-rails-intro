@@ -7,14 +7,25 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @all_ratings = Movie.all_ratings
+    # get current setting from params
     sort = params[:sort]
+    
+    if params[:ratings].nil?
+      @checked_ratings = @all_ratings
+    else
+      @checked_ratings = params[:ratings].keys
+    end
+    
     case sort
     when 'title'
       @title_cls = 'hilite'
     when 'release_date'
       @release_cls = 'hilite'
     end
-    @movies = Movie.order(params[:sort])
+    
+    # query movies from Movie
+    @movies = Movie.with_ratings(@checked_ratings).order(sort)
   end
 
   def new
