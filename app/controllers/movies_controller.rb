@@ -8,15 +8,19 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.all_ratings
-    # get current setting from params
-    sort = params[:sort]
     
-    if params[:ratings].nil?
-      @checked_ratings = @all_ratings
-    else
-      @checked_ratings = params[:ratings].keys
+    # get current setting from params or session
+    sort = params[:sort] || session[:sort]
+    @checked_ratings = params[:ratings] || session[:ratings] \
+      || Hash[@all_ratings.map { |r| [r, 1] }]
+
+    if !params[:commit].nil? || params[:ratings].nil? || \
+      (params[:sort].nil? && !session[:sort].nil?)
+      flash.keep
+      redirect_to movies_path :sort => sort, :ratings => @checked_ratings
     end
     
+    # define the toggled column
     case sort
     when 'title'
       @title_cls = 'hilite'
@@ -25,7 +29,11 @@ class MoviesController < ApplicationController
     end
     
     # query movies from Movie
-    @movies = Movie.with_ratings(@checked_ratings).order(sort)
+    @movies = Movie.with_ratings(@checked_ratings.keys).order(sort)
+
+    # save current setting to session
+    session[:sort] = sort
+    session[:ratings] = @checked_ratings
   end
 
   def new
